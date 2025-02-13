@@ -2,9 +2,60 @@ import "../../styles/Calculator.css";
 import React from "react";
 
 function Calculator() {
+  const [spellList, setSpellList] = React.useState();
+  const [spell, setSpell] = React.useState();
+  const apiLink = "https://www.dnd5eapi.co/api/";
+
+  function transformText(text) {
+    return text.toLowerCase().replace(/\s+/g, "-");
+  }
+
+  function handleChange(event) {
+    const uniqueSpell = event.target.value;
+    const translatedSpell = transformText(uniqueSpell);
+    getSpell(translatedSpell);
+  }
+
+  function getSpell(name) {
+    fetch(apiLink + "spells/" + name)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setSpell(data.results);
+      });
+  }
+
+  function getSpellList() {
+    fetch(apiLink + "spells")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setSpellList(data.results);
+      });
+  }
+
+  React.useEffect(() => {
+    getSpellList();
+  }, []);
+
   return (
     <div>
-      <p>calculator</p>
+      {spell ? spell.name : ""}
+      {spellList ? (
+        <select onChange={handleChange}>
+          {spellList.map((spell, index) => (
+            <option key={index} value={spell.name}>
+              {spell.name}
+            </option>
+          ))}
+        </select>
+      ) : (
+        "cargando"
+      )}
     </div>
   );
 }
