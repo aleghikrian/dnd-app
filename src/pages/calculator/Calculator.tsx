@@ -1,9 +1,9 @@
 import "../../styles/Calculator.css";
-import React from "react";
+import { useEffect, useState } from "react";
 
 function Calculator() {
-  const [spellList, setSpellList] = React.useState();
-  const [spell, setSpell] = React.useState();
+  const [spellList, setSpellList] = useState();
+  const [spell, setSpell] = useState();
   const apiLink = "https://www.dnd5eapi.co/api/";
 
   function transformText(text) {
@@ -38,7 +38,7 @@ function Calculator() {
       });
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getSpellList();
   }, []);
 
