@@ -56,6 +56,18 @@ function Calculator() {
       ) : (
         "cargando"
       )}
+      {spell ? <div>{spell.desc}</div> : ""}
+      {spellList ? (
+        <div onChange={handleChange}>
+          {spellList.map((spell, index) => (
+            <div key={index} value={spell.desc}>
+              {spell.desc}
+            </div>
+          ))}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
